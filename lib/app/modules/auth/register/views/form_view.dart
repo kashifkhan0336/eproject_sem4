@@ -79,12 +79,14 @@ class RegisterView extends GetView<RegisterFormController> {
                   if (_formKey.currentState?.saveAndValidate() ?? false) {
                     final formData = _formKey.currentState?.value;
                     if (formData != null) {
-                      controller.checkEmailExists(formData['email']);
-                      if(controller.emailExists.isTrue){
-                        _emailFieldKey.currentState?.invalidate('Email already taken');
+                      await controller.checkEmailExists(formData['email']);
+                      if (controller.emailExists.isTrue) {
+                        _emailFieldKey.currentState
+                            ?.invalidate('Email already taken');
+                      } else {
+                        await controller.handleFormSubmission(formData);
+                        debugPrint(formData.toString());
                       }
-                      await controller.handleFormSubmission(formData);
-                      debugPrint(formData.toString());
                     }
                   }
                 },

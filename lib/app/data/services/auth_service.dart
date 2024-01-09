@@ -23,7 +23,7 @@ class AuthService extends GetxService {
 
   Future<bool> isEmailExists(String email) async {
     final response = await _supabase.rpc('email_exists',
-        params: {"email_address": 'kashifkhan0336@gmail.com'});
+        params: {"email_address": email});
 
     return response;
   }

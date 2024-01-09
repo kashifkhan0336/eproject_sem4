@@ -8,6 +8,7 @@ class RegisterFormController extends GetxController {
   RxBool emailExists = false.obs;
   final AuthService authService = Get.find();                                                                                                    
    Future<void> checkEmailExists(String email) async {
+        isLoading.value = true;
     try {
       bool result = await authService.isEmailExists(email);
 
@@ -18,6 +19,8 @@ class RegisterFormController extends GetxController {
       print("Error checking email existence: $error");
       // For diagnostic purposes, you might set emailExists to false in case of an error
       emailExists.value = false;
+    }finally {
+      isLoading.value = false;
     }
   }
 
