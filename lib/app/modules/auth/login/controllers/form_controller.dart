@@ -16,15 +16,12 @@ class LoginFormController extends GetxController {
           email: formData['email'],
           password: formData['password'],
           );
-      print(user);
 
       if (user != null) {
         isAuthSuccess.value = true;
-        print("registered");
         // Authentication successful, proceed with the app logic
       } else {
         isAuthSuccess.value = false;
-        print("registration failed!");
         // Authentication failed, show error message
       }
     } finally {

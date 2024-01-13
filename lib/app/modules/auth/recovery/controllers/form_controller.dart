@@ -7,12 +7,11 @@ class RecoveryFormController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isAuthSuccess = false.obs;
 
-  final AuthService authService = Get.find();                                                                                                    
 
   Future<void> handleFormSubmission(Map<String, dynamic> formData) async {
     isLoading.value = true;
     try {
-      await authService.resetPassword(formData["email"]);
+      //await authService.resetPassword(formData["email"]);
 
     } finally {
       isLoading.value = false;

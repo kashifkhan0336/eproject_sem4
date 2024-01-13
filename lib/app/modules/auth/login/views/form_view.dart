@@ -1,13 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:auto_route/auto_route.dart';
 import 'package:eproject_sem4/app/modules/auth/login/controllers/form_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
-
+@RoutePage()
 class LoginView extends GetView<LoginFormController> {
-  const LoginView({super.key});
+  final Function(bool?)? onResult;
+  const LoginView({super.key, this.onResult});
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +17,15 @@ class LoginView extends GetView<LoginFormController> {
     final _emailFieldKey = GlobalKey<FormBuilderFieldState>();
     final _passwordFieldKey = GlobalKey<FormBuilderFieldState>();
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Login'),
-        ),
         body: SingleChildScrollView(
           child: FormBuilder(
             key: _formKey,
             child: Column(children: [
               FormBuilderTextField(
+                
                 key: _emailFieldKey,
                 name: "email",
+                initialValue: "kashifkhan0336@gmail.com",
                 decoration: const InputDecoration(labelText: "Email"),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
@@ -37,6 +38,7 @@ class LoginView extends GetView<LoginFormController> {
               FormBuilderTextField(
                 key: _passwordFieldKey,
                 name: 'password',
+                initialValue: "master",
                 decoration: const InputDecoration(labelText: 'Password'),
                 obscureText: true,
                 validator: FormBuilderValidators.compose([
@@ -57,6 +59,9 @@ class LoginView extends GetView<LoginFormController> {
                       if(controller.isAuthSuccess.isFalse){
                         _emailFieldKey.currentState?.invalidate('Bad email/password');
                         _passwordFieldKey.currentState?.invalidate('Bad email/password');
+                      }
+                      if(controller.isAuthSuccess.isTrue){
+                        onResult?.call(true);
                       }
                       debugPrint(formData.toString());
                     }
