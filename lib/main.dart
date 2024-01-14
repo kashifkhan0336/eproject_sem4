@@ -3,6 +3,7 @@
 
 import 'package:auto_route/auto_route.dart';
 import 'package:eproject_sem4/app/data/services/auth_service.dart';
+import 'package:eproject_sem4/app/data/services/product_service.dart';
 import 'package:eproject_sem4/app/modules/auth/login/controllers/form_controller.dart';
 import 'package:eproject_sem4/app/modules/auth/recovery/controllers/form_controller.dart';
 import 'package:eproject_sem4/app/routes/routes.gr.dart';
@@ -20,6 +21,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initServices();
   await initControllers();
+  final ProductService _productService = Get.find();
   final _supabase = Get.find<SupabaseClient>();
   final _storage = Get.find<FlutterSecureStorage>();
   if (await _storage.containsKey(key: "user_session")) {

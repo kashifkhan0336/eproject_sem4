@@ -10,7 +10,7 @@ class ProductDetailView extends GetView {
 
   @override
   Widget build(BuildContext context) {
-    return Text(product.product_name);
+    return Text(product.name);
   }
 }
 

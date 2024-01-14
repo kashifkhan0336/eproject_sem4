@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eproject_sem4/app/data/models/product.dart';
+import 'package:eproject_sem4/app/modules/home/controllers/home_controller.dart';
 
 import 'package:eproject_sem4/app/routes/routes.gr.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +10,9 @@ var list = [
   'Boat',
   'Plane',
 ];
-Product _product = Product("Fawad GEl");
+Product _product = Product(id: 1, name: "watch1");
 @RoutePage()
-class HomeView extends GetView {
+class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
 
   @override
