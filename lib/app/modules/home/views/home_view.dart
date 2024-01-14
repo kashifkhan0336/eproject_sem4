@@ -15,7 +15,7 @@ class HomeView extends GetView {
             title: Text("WatchHub"),
             leading: MaterialButton(
                 onPressed: () {
-                  context.router.pushNamed("login");
+                  context.router.pushNamed("/login");
                 },
                 child: Icon(Icons.home)),
             actions: [

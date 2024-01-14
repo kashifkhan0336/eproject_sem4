@@ -22,18 +22,18 @@ Future<void> main() async {
   await initControllers();
   final _supabase = Get.find<SupabaseClient>();
   final _storage = Get.find<FlutterSecureStorage>();
-  // if (await _storage.containsKey(key: "user_session")) {
-  //   print("Already logged in!");
-  //   final session_string = await _storage.read(key: "user_session");
+  if (await _storage.containsKey(key: "user_session")) {
+    print("Already logged in!");
+    final session_string = await _storage.read(key: "user_session");
 
-  //   //print(session_string);
-  //   print("Session recovered!");
-  //   try {
-  //     await _supabase.auth.recoverSession(session_string!);
-  //   } on AuthException {
-  //     await _storage.delete(key: "user_session");
-  //   }
-  // }
+    //print(session_string);
+    print("Session recovered!");
+    try {
+      await _supabase.auth.recoverSession(session_string!);
+    } on AuthException {
+      await _storage.delete(key: "user_session");
+    }
+  }
 
   runApp(MyApp());
 }

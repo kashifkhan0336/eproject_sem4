@@ -18,61 +18,26 @@ class AuthService extends GetxService {
 
   @override
   Future<void> onReady() async {
-    _supabase.auth.onAuthStateChange.listen((data) {
+    _supabase.auth.onAuthStateChange.listen((data) async {
       final AuthChangeEvent event = data.event;
       final session = data.session;
+              final sessionString = jsonEncode(session!);
       if (event == AuthChangeEvent.signedIn) {
         _user.value = session?.user;
+
+        await _storage.write(key: "user_session", value: sessionString);
         print("Signin called from auth service");
       }
       if (event == AuthChangeEvent.signedOut) {
         print("Signout called from auth service");
+        await _storage.delete(key: "user_session");
         _user.value = null;
+      }
+      if (event == AuthChangeEvent.tokenRefreshed) {
+        await _storage.write(key: "user_session", value: sessionString);
       }
     });
   }
-  // Rxn<User?> get userStream => _user;
-  // bool get getIsAuth => isAuth.value;
-  // @override
-  // Future<void> onReady() async {
-  //   _supabase.auth.onAuthStateChange.listen((data) async {
-  //     final AuthChangeEvent event = data.event;
-  //     if (event == AuthChangeEvent.signedIn) {
-  //       print("SignedIn happend! saving session state");
-  //       notifyListeners();
-  //       isAuth.value = true;
-  //       // Get user session information
-  //       final session = data.session;
-  //       _user.value = session?.user;
-  //       // Convert session to a string (assuming it's a JSON-serializable object)
-  //       final sessionString = jsonEncode(session!);
-  //       //_supabase.auth.recoverSession(sessionString);
-
-  //       await _storage.write(key: "user_session", value: sessionString);
-  //       // await _storage.write(key: "user_session", value: data.session.user);
-  //       // handle signIn
-  //     }
-  //     if (event == AuthChangeEvent.signedOut) {
-  //       print("Signed out!");
-  //       _user.value = null;
-  //       isAuth.value = false;
-  //       notifyListeners();
-  //       await _storage.delete(key: "user_session");
-  //     }
-  //     if (event == AuthChangeEvent.tokenRefreshed) {
-  //       print("Session Initialized!");
-  //       notifyListeners();
-  //       isAuth.value = true;
-  //       final session = data.session;
-  //       _user.value = session?.user;
-  //       // Convert session to a string (assuming it's a JSON-serializable object)
-  //       final sessionString = jsonEncode(session!);
-  //       //_supabase.auth.recoverSession(sessionString);
-
-  //       await _storage.write(key: "user_session", value: sessionString);
-  //     }
-  //   });
-  // }
 
   // final SupabaseClient _supabase = SupabaseClient(
   //     "https://myzerqoresebhflccfvz.supabase.co",
