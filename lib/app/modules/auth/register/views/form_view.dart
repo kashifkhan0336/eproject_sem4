@@ -15,92 +15,96 @@ class RegisterView extends GetView<RegisterFormController> {
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormBuilderState>();
     final _emailFieldKey = GlobalKey<FormBuilderFieldState>();
-    return SingleChildScrollView(
-      child: FormBuilder(
-        key: _formKey,
-        child: Column(children: [
-          FormBuilderTextField(
-            name: "full_name",
-            decoration: const InputDecoration(labelText: "Full Name"),
-            validator: FormBuilderValidators.compose(
-                [FormBuilderValidators.required()]),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          FormBuilderTextField(
-            key: _emailFieldKey,
-            name: "email",
-            decoration: const InputDecoration(labelText: "Email"),
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(),
-              FormBuilderValidators.email()
-            ]),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          FormBuilderTextField(
-            name: 'password',
-            decoration: const InputDecoration(labelText: 'Password'),
-            obscureText: true,
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(),
-              FormBuilderValidators.minLength(6),
-            ]),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          FormBuilderTextField(
-            name: 'confirm_password',
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            decoration: InputDecoration(
-              labelText: 'Confirm Password',
-              suffixIcon: (_formKey
-                          .currentState?.fields['confirm_password']?.hasError ??
-                      false)
-                  ? const Icon(Icons.error, color: Colors.red)
-                  : const Icon(Icons.check, color: Colors.green),
-            ),
-            obscureText: true,
-            validator: (value) =>
-                _formKey.currentState?.fields['password']?.value != value
-                    ? 'No coinciden'
-                    : null,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          MaterialButton(
-            onPressed: () async {
-              if (_formKey.currentState?.saveAndValidate() ?? false) {
-                final formData = _formKey.currentState?.value;
-                if (formData != null) {
-                  await controller.checkEmailExists(formData['email']);
-                  if (controller.emailExists.isTrue) {
-                    _emailFieldKey.currentState
-                        ?.invalidate('Email already taken');
-                  } else {
-                    await controller.handleFormSubmission(formData);
-                    debugPrint(formData.toString());
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: FormBuilder(
+            key: _formKey,
+            child: Column(children: [
+              FormBuilderTextField(
+                name: "full_name",
+                decoration: const InputDecoration(labelText: "Full Name"),
+                validator: FormBuilderValidators.compose(
+                    [FormBuilderValidators.required()]),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              FormBuilderTextField(
+                key: _emailFieldKey,
+                name: "email",
+                decoration: const InputDecoration(labelText: "Email"),
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(),
+                  FormBuilderValidators.email()
+                ]),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              FormBuilderTextField(
+                name: 'password',
+                decoration: const InputDecoration(labelText: 'Password'),
+                obscureText: true,
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(),
+                  FormBuilderValidators.minLength(6),
+                ]),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              FormBuilderTextField(
+                name: 'confirm_password',
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  labelText: 'Confirm Password',
+                  suffixIcon: (_formKey
+                              .currentState?.fields['confirm_password']?.hasError ??
+                          false)
+                      ? const Icon(Icons.error, color: Colors.red)
+                      : const Icon(Icons.check, color: Colors.green),
+                ),
+                obscureText: true,
+                validator: (value) =>
+                    _formKey.currentState?.fields['password']?.value != value
+                        ? 'No coinciden'
+                        : null,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              MaterialButton(
+                onPressed: () async {
+                  if (_formKey.currentState?.saveAndValidate() ?? false) {
+                    final formData = _formKey.currentState?.value;
+                    if (formData != null) {
+                      await controller.checkEmailExists(formData['email']);
+                      if (controller.emailExists.isTrue) {
+                        _emailFieldKey.currentState
+                            ?.invalidate('Email already taken');
+                      } else {
+                        await controller.handleFormSubmission(formData);
+                        debugPrint(formData.toString());
+                      }
+                    }
                   }
-                }
-              }
-            },
-            child: Obx(() {
-              return controller.isLoading.value
-                  ? CircularProgressIndicator() // Show loading indicator
-                  : Text("Register");
-            }),
+                },
+                child: Obx(() {
+                  return controller.isLoading.value
+                      ? CircularProgressIndicator() // Show loading indicator
+                      : Text("Register");
+                }),
+              ),
+              MaterialButton(
+                onPressed: () {
+                  context.router.pushNamed("/login");
+                },
+                child: Text("Test"),
+              )
+            ]),
           ),
-          MaterialButton(
-            onPressed: () {
-              context.router.pushNamed("/login");
-            },
-            child: Text("Test"),
-          )
-        ]),
+        ),
       ),
     );
   }

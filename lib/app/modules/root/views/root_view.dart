@@ -28,7 +28,7 @@ class RootView extends GetView {
               ),
               MaterialButton(
                 onPressed: () async {
-                  context.router.pushNamed("recover");
+                  context.router.pushNamed("/recover");
                 },
                 child: Icon(Icons.folder),
               )

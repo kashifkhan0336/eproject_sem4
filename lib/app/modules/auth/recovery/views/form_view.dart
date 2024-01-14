@@ -30,54 +30,58 @@ class RecoveryView extends GetView<RecoveryFormController> {
     final _formKey = GlobalKey<FormBuilderState>();
     final _emailFieldKey = GlobalKey<FormBuilderFieldState>();
     final _passwordFieldKey = GlobalKey<FormBuilderFieldState>();
-    return SingleChildScrollView(
-      child: FormBuilder(
-        key: _formKey,
-        child: Column(children: [
-          FormBuilderTextField(
-            key: _emailFieldKey,
-            name: "email",
-            decoration: const InputDecoration(labelText: "Email"),
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(),
-              FormBuilderValidators.email()
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: FormBuilder(
+            key: _formKey,
+            child: Column(children: [
+              FormBuilderTextField(
+                key: _emailFieldKey,
+                name: "email",
+                decoration: const InputDecoration(labelText: "Email"),
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(),
+                  FormBuilderValidators.email()
+                ]),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              MaterialButton(
+                onPressed: () async {
+                  final currentContext = context;
+                  if (_formKey.currentState?.saveAndValidate() ?? false) {
+                    final formData = _formKey.currentState?.value;
+                    if (formData != null) {
+                      await controller.handleFormSubmission(formData);
+                      // if(controller.isAuthSuccess.isFalse){
+                      //   _emailFieldKey.currentState?.invalidate('Bad email/password');
+                      //   _passwordFieldKey.currentState?.invalidate('Bad email/password');
+                      // }
+                      //openDialog();
+                      showDialog(
+                        context: currentContext,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Success"),
+                            content: Text("Password reset email sent!"),
+                          );
+                        },
+                      );
+                      debugPrint(formData.toString());
+                    }
+                  }
+                },
+                child: Obx(() {
+                  return controller.isLoading.value
+                      ? CircularProgressIndicator() // Show loading indicator
+                      : Text("Request");
+                }),
+              )
             ]),
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          MaterialButton(
-            onPressed: () async {
-              final currentContext = context;
-              if (_formKey.currentState?.saveAndValidate() ?? false) {
-                final formData = _formKey.currentState?.value;
-                if (formData != null) {
-                  await controller.handleFormSubmission(formData);
-                  // if(controller.isAuthSuccess.isFalse){
-                  //   _emailFieldKey.currentState?.invalidate('Bad email/password');
-                  //   _passwordFieldKey.currentState?.invalidate('Bad email/password');
-                  // }
-                  //openDialog();
-                  showDialog(
-                    context: currentContext,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text("Success"),
-                        content: Text("Password reset email sent!"),
-                      );
-                    },
-                  );
-                  debugPrint(formData.toString());
-                }
-              }
-            },
-            child: Obx(() {
-              return controller.isLoading.value
-                  ? CircularProgressIndicator() // Show loading indicator
-                  : Text("Request");
-            }),
-          )
-        ]),
+        ),
       ),
     );
   }
