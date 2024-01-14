@@ -8,24 +8,27 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i6;
+import 'package:auto_route/auto_route.dart' as _i7;
+import 'package:eproject_sem4/app/data/models/product.dart' as _i9;
 import 'package:eproject_sem4/app/modules/auth/login/views/form_view.dart'
     as _i2;
 import 'package:eproject_sem4/app/modules/auth/recovery/views/form_view.dart'
-    as _i3;
-import 'package:eproject_sem4/app/modules/auth/register/views/form_view.dart'
     as _i4;
+import 'package:eproject_sem4/app/modules/auth/register/views/form_view.dart'
+    as _i5;
 import 'package:eproject_sem4/app/modules/home/views/home_view.dart' as _i1;
-import 'package:eproject_sem4/app/modules/root/views/root_view.dart' as _i5;
-import 'package:flutter/material.dart' as _i7;
+import 'package:eproject_sem4/app/modules/product_detail/views/product_detail_view.dart'
+    as _i3;
+import 'package:eproject_sem4/app/modules/root/views/root_view.dart' as _i6;
+import 'package:flutter/material.dart' as _i8;
 
-abstract class $AppRouter extends _i6.RootStackRouter {
+abstract class $AppRouter extends _i7.RootStackRouter {
   $AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, _i6.PageFactory> pagesMap = {
+  final Map<String, _i7.PageFactory> pagesMap = {
     HomeView.name: (routeData) {
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i1.HomeView(),
       );
@@ -33,7 +36,7 @@ abstract class $AppRouter extends _i6.RootStackRouter {
     LoginView.name: (routeData) {
       final args =
           routeData.argsAs<LoginViewArgs>(orElse: () => const LoginViewArgs());
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i2.LoginView(
           key: args.key,
@@ -41,22 +44,32 @@ abstract class $AppRouter extends _i6.RootStackRouter {
         ),
       );
     },
-    RecoveryView.name: (routeData) {
-      return _i6.AutoRoutePage<dynamic>(
+    ProductDetailView.name: (routeData) {
+      final args = routeData.argsAs<ProductDetailViewArgs>();
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i3.RecoveryView(),
+        child: _i3.ProductDetailView(
+          key: args.key,
+          product: args.product,
+        ),
+      );
+    },
+    RecoveryView.name: (routeData) {
+      return _i7.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i4.RecoveryView(),
       );
     },
     RegisterView.name: (routeData) {
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.RegisterView(),
+        child: const _i5.RegisterView(),
       );
     },
     RootView.name: (routeData) {
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i5.RootView(),
+        child: const _i6.RootView(),
       );
     },
   };
@@ -64,8 +77,8 @@ abstract class $AppRouter extends _i6.RootStackRouter {
 
 /// generated route for
 /// [_i1.HomeView]
-class HomeView extends _i6.PageRouteInfo<void> {
-  const HomeView({List<_i6.PageRouteInfo>? children})
+class HomeView extends _i7.PageRouteInfo<void> {
+  const HomeView({List<_i7.PageRouteInfo>? children})
       : super(
           HomeView.name,
           initialChildren: children,
@@ -73,16 +86,16 @@ class HomeView extends _i6.PageRouteInfo<void> {
 
   static const String name = 'HomeView';
 
-  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
+  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i2.LoginView]
-class LoginView extends _i6.PageRouteInfo<LoginViewArgs> {
+class LoginView extends _i7.PageRouteInfo<LoginViewArgs> {
   LoginView({
-    _i7.Key? key,
+    _i8.Key? key,
     dynamic Function(bool?)? onResult,
-    List<_i6.PageRouteInfo>? children,
+    List<_i7.PageRouteInfo>? children,
   }) : super(
           LoginView.name,
           args: LoginViewArgs(
@@ -94,8 +107,8 @@ class LoginView extends _i6.PageRouteInfo<LoginViewArgs> {
 
   static const String name = 'LoginView';
 
-  static const _i6.PageInfo<LoginViewArgs> page =
-      _i6.PageInfo<LoginViewArgs>(name);
+  static const _i7.PageInfo<LoginViewArgs> page =
+      _i7.PageInfo<LoginViewArgs>(name);
 }
 
 class LoginViewArgs {
@@ -104,7 +117,7 @@ class LoginViewArgs {
     this.onResult,
   });
 
-  final _i7.Key? key;
+  final _i8.Key? key;
 
   final dynamic Function(bool?)? onResult;
 
@@ -115,9 +128,47 @@ class LoginViewArgs {
 }
 
 /// generated route for
-/// [_i3.RecoveryView]
-class RecoveryView extends _i6.PageRouteInfo<void> {
-  const RecoveryView({List<_i6.PageRouteInfo>? children})
+/// [_i3.ProductDetailView]
+class ProductDetailView extends _i7.PageRouteInfo<ProductDetailViewArgs> {
+  ProductDetailView({
+    _i8.Key? key,
+    required _i9.Product product,
+    List<_i7.PageRouteInfo>? children,
+  }) : super(
+          ProductDetailView.name,
+          args: ProductDetailViewArgs(
+            key: key,
+            product: product,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ProductDetailView';
+
+  static const _i7.PageInfo<ProductDetailViewArgs> page =
+      _i7.PageInfo<ProductDetailViewArgs>(name);
+}
+
+class ProductDetailViewArgs {
+  const ProductDetailViewArgs({
+    this.key,
+    required this.product,
+  });
+
+  final _i8.Key? key;
+
+  final _i9.Product product;
+
+  @override
+  String toString() {
+    return 'ProductDetailViewArgs{key: $key, product: $product}';
+  }
+}
+
+/// generated route for
+/// [_i4.RecoveryView]
+class RecoveryView extends _i7.PageRouteInfo<void> {
+  const RecoveryView({List<_i7.PageRouteInfo>? children})
       : super(
           RecoveryView.name,
           initialChildren: children,
@@ -125,13 +176,13 @@ class RecoveryView extends _i6.PageRouteInfo<void> {
 
   static const String name = 'RecoveryView';
 
-  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
+  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i4.RegisterView]
-class RegisterView extends _i6.PageRouteInfo<void> {
-  const RegisterView({List<_i6.PageRouteInfo>? children})
+/// [_i5.RegisterView]
+class RegisterView extends _i7.PageRouteInfo<void> {
+  const RegisterView({List<_i7.PageRouteInfo>? children})
       : super(
           RegisterView.name,
           initialChildren: children,
@@ -139,13 +190,13 @@ class RegisterView extends _i6.PageRouteInfo<void> {
 
   static const String name = 'RegisterView';
 
-  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
+  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i5.RootView]
-class RootView extends _i6.PageRouteInfo<void> {
-  const RootView({List<_i6.PageRouteInfo>? children})
+/// [_i6.RootView]
+class RootView extends _i7.PageRouteInfo<void> {
+  const RootView({List<_i7.PageRouteInfo>? children})
       : super(
           RootView.name,
           initialChildren: children,
@@ -153,5 +204,5 @@ class RootView extends _i6.PageRouteInfo<void> {
 
   static const String name = 'RootView';
 
-  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
+  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
 }
