@@ -5,16 +5,32 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductService extends GetxService {
   final _supabaseClient = Get.find<SupabaseClient>();
-
+  Future<List<Product>> getProducts() async {
+    List<Product> products = await _supabaseClient
+        .from('watches')
+        .select("id,watch_data->name")
+        .withConverter((products) => products.map(Product.fromJson).toList());
+    return products;
+  }
+  Future<Product> getProduct(int productId)async{
+        final Product product = await _supabaseClient
+        .from("watches")
+        .select("id,watch_data->name")
+        .eq("id",productId)
+        .single()
+        .withConverter<Product>((data) => Product.fromJson(data));
+        return product;
+  }
   @override
   Future<void> onReady() async {
-    final products = await _supabaseClient
-    .from('watches')
-    .select("id,watch_data->name")
-    .withConverter(
-      (products)=>products.map(Product.fromJson).toList()
-    );
-    print(products[0].name);
+    final Product product = await _supabaseClient
+        .from("watches")
+        .select("id,watch_data->name")
+        .eq("id","186")
+        .limit(1)
+        .single()
+        .withConverter<Product>((data) => Product.fromJson(data));
+    print(product.name);
     super.onReady();
   }
 }
