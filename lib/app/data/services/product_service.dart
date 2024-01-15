@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:eproject_sem4/app/data/models/product.dart';
 import 'package:eproject_sem4/app/modules/home/views/home_view.dart';
 import 'package:get/get.dart';
@@ -23,14 +25,10 @@ class ProductService extends GetxService {
   }
   @override
   Future<void> onReady() async {
-    final Product product = await _supabaseClient
+    final product = await _supabaseClient
         .from("watches")
-        .select("id,watch_data->name")
-        .eq("id","186")
-        .limit(1)
-        .single()
-        .withConverter<Product>((data) => Product.fromJson(data));
-    print(product.name);
+        .select("id,watch_data->name,watch_data->specs").limit(2);
+    print(jsonEncode(product));
     super.onReady();
   }
 }

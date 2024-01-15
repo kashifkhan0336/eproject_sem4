@@ -16,10 +16,9 @@ Product _product = Product(id: 1, name: "watch1");
 @RoutePage()
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
-
     ScrollController _scrollController = ScrollController();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -30,7 +29,8 @@ class HomeView extends GetView<HomeController> {
     });
     return Padding(
       padding: EdgeInsets.all(12.0),
-      child: Obx(() => GridView.builder(
+      child: Obx(
+        () => GridView.builder(
           controller: _scrollController,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, // number of items in each row
@@ -46,10 +46,8 @@ class HomeView extends GetView<HomeController> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      controller.products[index].name,
-                      style: TextStyle(fontSize: 18.0, color: Colors.white),
-                    ),
+                    if (controller.products[index].name.length > 14)
+                      WatchName(index),
                     MaterialButton(
                       onPressed: () {
                         context.router.push(ProductDetailView(
@@ -66,4 +64,17 @@ class HomeView extends GetView<HomeController> {
       ),
     );
   }
+
+Text WatchName(int index) {
+ String productName = controller.products[index].name;
+ String displayedName = productName.length > 14
+     ? "${productName.substring(0, 14)}..."
+     : productName;
+
+ return Text(
+   displayedName,
+   style: TextStyle(fontSize: 18.0, color: Colors.white),
+ );
+}
+
 }
