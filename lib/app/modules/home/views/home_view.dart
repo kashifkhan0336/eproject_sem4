@@ -11,7 +11,7 @@ var list = [
   'Boat',
   'Plane',
 ];
-Product _product = Product(id: 1, name: "watch1");
+
 
 @RoutePage()
 class HomeView extends GetView<HomeController> {
@@ -46,7 +46,7 @@ class HomeView extends GetView<HomeController> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    if (controller.products[index].name.length > 14)
+                    if (controller.products[index].name!.length > 14)
                       WatchName(index),
                     MaterialButton(
                       onPressed: () {
@@ -66,7 +66,7 @@ class HomeView extends GetView<HomeController> {
   }
 
 Text WatchName(int index) {
- String productName = controller.products[index].name;
+ String productName = controller.products[index].name!;
  String displayedName = productName.length > 14
      ? "${productName.substring(0, 14)}..."
      : productName;
