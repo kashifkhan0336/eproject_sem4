@@ -5,6 +5,7 @@ import 'package:eproject_sem4/app/modules/auth/login/controllers/form_controller
 import 'package:eproject_sem4/app/modules/auth/recovery/controllers/form_controller.dart';
 import 'package:eproject_sem4/app/modules/auth/register/controllers/form_controller.dart';
 import 'package:eproject_sem4/app/modules/home/controllers/home_controller.dart';
+import 'package:eproject_sem4/app/modules/wishlist/controllers/wishlist_controller.dart';
 import 'package:eproject_sem4/main.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
@@ -28,5 +29,6 @@ Future<void> initControllers() async {
   Get.lazyPut(() => HomeController());
   Get.lazyPut(() => LoginFormController());
   Get.lazyPut(() => RecoveryFormController());
+  Get.put(WishlistController());
   print('All controllers initialized...');
 }

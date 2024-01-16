@@ -19,7 +19,7 @@ class AuthService extends GetxService {
     _supabase.auth.onAuthStateChange.listen((data) async {
       final AuthChangeEvent event = data.event;
       final session = data.session;
-              final sessionString = jsonEncode(session!);
+      final sessionString = jsonEncode(session!);
       if (event == AuthChangeEvent.signedIn) {
         _user.value = session?.user;
 
@@ -36,6 +36,7 @@ class AuthService extends GetxService {
       }
     });
   }
+
   Future<User?> signIn(
       {required String email, required String password}) async {
     try {
@@ -53,6 +54,14 @@ class AuthService extends GetxService {
       return true;
     } on AuthException {
       return false;
+    }
+  }
+
+  User? currentUser() {
+    try {
+      return _supabase.auth.currentUser;
+    } on AuthException {
+      return null;
     }
   }
 

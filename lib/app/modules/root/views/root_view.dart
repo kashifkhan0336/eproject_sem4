@@ -31,6 +31,12 @@ class RootView extends GetView {
                   context.router.pushNamed("/recover");
                 },
                 child: Icon(Icons.folder),
+              ),
+              MaterialButton(
+                onPressed: () async {
+                  context.router.pushNamed("wishlist");
+                },
+                child: Icon(Icons.list),
               )
             ],
           ),

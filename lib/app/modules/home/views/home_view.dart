@@ -53,7 +53,13 @@ class HomeView extends GetView<HomeController> {
                         context.router.push(ProductDetailView(
                             product: controller.products[index]));
                       },
-                      child: Text("button"),
+                      child: const Text("show"),
+                    ),
+                                        MaterialButton(
+                      onPressed: () {
+                        
+                      },
+                      child: const Text("add"),
                     )
                   ],
                 ),

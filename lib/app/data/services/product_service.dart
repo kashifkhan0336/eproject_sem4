@@ -19,7 +19,7 @@ class ProductService extends GetxService {
   Future<Product> getProduct(int productId) async {
     final Product product = await _supabaseClient
         .from("watches")
-        .select("id,watch_data->name")
+        .select("id,watch_data->name,watch_data->price,watch_data->description,watch_data->description,watch_data->specs,brands (name)")
         .eq("id", productId)
         .single()
         .withConverter<Product>((data) => Product.fromJson(data));
