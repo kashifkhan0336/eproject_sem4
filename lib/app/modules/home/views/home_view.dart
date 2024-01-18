@@ -57,7 +57,7 @@ class HomeView extends GetView<HomeController> {
                     ),
                                         MaterialButton(
                       onPressed: () {
-                        
+                          controller.addToWishlist(controller.products[index].id!);
                       },
                       child: const Text("add"),
                     )

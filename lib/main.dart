@@ -6,6 +6,7 @@ import 'package:eproject_sem4/app/data/services/auth_service.dart';
 import 'package:eproject_sem4/app/data/services/product_service.dart';
 import 'package:eproject_sem4/app/modules/auth/login/controllers/form_controller.dart';
 import 'package:eproject_sem4/app/modules/auth/recovery/controllers/form_controller.dart';
+import 'package:eproject_sem4/app/modules/wishlist/controllers/wishlist_controller.dart';
 import 'package:eproject_sem4/app/routes/routes.gr.dart';
 import 'package:eproject_sem4/app/utils/init_controllers.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -25,13 +26,15 @@ Future<void> main() async {
   final _supabase = Get.find<SupabaseClient>();
   final _storage = Get.find<FlutterSecureStorage>();
   if (await _storage.containsKey(key: "user_session")) {
-    print("Already logged in!");
+ 
     final session_string = await _storage.read(key: "user_session");
 
     //print(session_string);
-    print("Session recovered!");
+    
     try {
       await _supabase.auth.recoverSession(session_string!);
+         print("Already logged in!");
+      print("Session recovered!");
     } on AuthException {
       await _storage.delete(key: "user_session");
     }
@@ -62,12 +65,43 @@ class MyApp extends GetView<AppBarController> {
     });
     return MaterialApp.router(
       routerConfig: _router.config(
-        reevaluateListenable: ReevaluateListenable.stream(_supabase.auth.onAuthStateChange)
+        reevaluateListenable: ReevaluateListenable.stream(_supabase.auth.onAuthStateChange),
+        navigatorObservers: () => [MyObserver()]
       )
     );
   }
 }
-
+class MyObserver extends AutoRouterObserver {                
+  @override                
+  void didPush(Route route, Route? previousRoute) {                
+    print('New route pushed: ${route.settings.name}');
+    print('Old route replace: ${previousRoute?.settings.name}');   
+           
+  }
+  @override
+  void didRemove(Route route, Route? previousRoute) {
+    print("didRemovee");
+    // TODO: implement didRemove
+    super.didRemove(route, previousRoute);
+  }                
+  @override
+  void didPop(Route route, Route? previousRoute) {
+    // TODO: implement didPop
+    Get.delete<WishlistController>();
+    Get.lazyPut(()=>WishlistController());
+    print("route popped!");
+  }
+ // only override to observer tab routes                
+ @override                
+  void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {                
+    print('Tab route visited: ${route.name}');                
+  }                
+  @override                
+  void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {                
+    print('Tab route re-visited: ${route.name}');                
+  }                
+            
+}                
 // class TextInput extends StatelessWidget {
 //   final String inputPlaceholder;
 //   final Icon inputIcon;

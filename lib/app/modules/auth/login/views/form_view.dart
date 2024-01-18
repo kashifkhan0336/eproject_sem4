@@ -73,7 +73,10 @@ class LoginView extends GetView<LoginFormController> {
                         ? CircularProgressIndicator() // Show loading indicator
                         : Text("Login");
                   }),
-                )
+                ),
+                MaterialButton(onPressed: () {
+                  context.router.pushNamed("/register");
+                },child: Text("Register"),)
               ]),
             ),
           ),

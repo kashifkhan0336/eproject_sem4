@@ -18,9 +18,10 @@ class AuthService extends GetxService {
   Future<void> onReady() async {
     _supabase.auth.onAuthStateChange.listen((data) async {
       final AuthChangeEvent event = data.event;
-      final session = data.session;
-      final sessionString = jsonEncode(session!);
+
       if (event == AuthChangeEvent.signedIn) {
+              final session = data.session;
+      final sessionString = jsonEncode(session!);
         _user.value = session?.user;
 
         await _storage.write(key: "user_session", value: sessionString);
@@ -32,6 +33,8 @@ class AuthService extends GetxService {
         _user.value = null;
       }
       if (event == AuthChangeEvent.tokenRefreshed) {
+              final session = data.session;
+      final sessionString = jsonEncode(session!);
         await _storage.write(key: "user_session", value: sessionString);
       }
     });
