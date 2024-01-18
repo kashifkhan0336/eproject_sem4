@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:eproject_sem4/app/data/models/product.dart';
-import 'package:eproject_sem4/app/modules/home/views/home_view.dart';
+
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
