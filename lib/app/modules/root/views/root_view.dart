@@ -37,6 +37,12 @@ class RootView extends GetView {
                   context.router.pushNamed("wishlist");
                 },
                 child: Icon(Icons.list),
+              ),
+                            MaterialButton(
+                onPressed: () async {
+                  context.router.pushNamed("cart");
+                },
+                child: Icon(Icons.shopping_cart),
               )
             ],
           ),

@@ -4,38 +4,18 @@ import 'package:eproject_sem4/app/data/services/auth_service.dart';
 import 'package:eproject_sem4/app/modules/auth/login/controllers/form_controller.dart';
 import 'package:eproject_sem4/app/modules/auth/recovery/controllers/form_controller.dart';
 import 'package:eproject_sem4/app/modules/auth/register/controllers/form_controller.dart';
+import 'package:eproject_sem4/app/modules/cart/controllers/cart_controller.dart';
 import 'package:eproject_sem4/app/modules/home/controllers/home_controller.dart';
 import 'package:eproject_sem4/app/modules/wishlist/controllers/wishlist_controller.dart';
 import 'package:eproject_sem4/main.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../adapters/flutter_secure_storage_adapter.dart';
 AndroidOptions _getAndroidOptions() => const AndroidOptions(
       encryptedSharedPreferences: true,
     );
-class FlutterSecureStorageAdapter implements GotrueAsyncStorage {
-  final FlutterSecureStorage storage = FlutterSecureStorage();
-
-  @override
-  Future<void> setItem({required String key, required String value}) async {
-    await storage.write(key: key, value: value);
-  }
-
-  @override
-  Future<String?> getItem({required String key}) async {
-    return await storage.read(key: key);
-  }
-
-  @override
-  Future<void> removeItem({required String key}) async {
-    await storage.delete(key: key);
-  }
-
-  @override
-  Future<void> clear() async {
-    await storage.deleteAll();
-  }
-}
 
 Future<void> initControllers() async {
   print('starting controllers ...');
@@ -53,6 +33,7 @@ Future<void> initControllers() async {
   Get.lazyPut(() => HomeController());
   Get.lazyPut(() => LoginFormController());
   Get.lazyPut(() => RecoveryFormController());
+  Get.lazyPut(()=>CartController());
   Get.lazyPut(()=>WishlistController());
   print('All controllers initialized...');
 }

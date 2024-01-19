@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 
 
+
 import 'package:eproject_sem4/app/routes/guards/auth_guard.dart';
 import 'package:eproject_sem4/app/routes/routes.gr.dart';
 
@@ -16,6 +17,7 @@ class AppRouter extends $AppRouter {
           AutoRoute(path: "home", initial: true, page: HomeView.page),
           AutoRoute(path: "wishlist",page: WishlistView.page, ),
           AutoRoute(path: "product_detail", page: ProductDetailView.page),
+          AutoRoute(path: "cart", page: CartView.page),
         ]),
         AutoRoute(path: "/login", page: LoginView.page),
         AutoRoute(path: "/register", page: RegisterView.page),

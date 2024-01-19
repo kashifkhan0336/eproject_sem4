@@ -6,12 +6,14 @@ import 'package:get/get.dart';
 class WishlistController extends GetxController {
   final _wishlistService = Get.find<WishlistService>();
   final wishlistItems = <Product>[].obs;
+  final isLoading = true.obs;
   @override
   Future<void> onReady() async {
     print("wishlist controller ready!");
-    
+   
     // TODO: implement onReady
     await getAllWishlistItems();
+         isLoading.value = false;
 
     super.onReady();
   }

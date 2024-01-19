@@ -63,6 +63,7 @@ class LoginView extends GetView<LoginFormController> {
                         }
                         if(controller.isAuthSuccess.isTrue){
                           onResult?.call(true);
+                          context.router.pushNamed("/home");
                         }
                         debugPrint(formData.toString());
                       }

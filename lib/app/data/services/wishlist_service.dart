@@ -25,7 +25,7 @@ class WishlistService extends GetxService {
               final currentWishlist = await _supabaseClient
           .from("wishlists")
           .select("id")
-          .eq("user_id", userId!)
+          .eq("user_id", userId)
           .single();
           currentWishlistId = currentWishlist['id'];
       }on PostgrestException{
@@ -44,7 +44,6 @@ class WishlistService extends GetxService {
         .from("wishlist_items")
         .select("watches (id,watch_data->name,watch_data->price,watch_data->description,watch_data->images,watch_data->specs,brands (name))")
         .eq("wishlist_id", currentWishlistId);
-        print(removeWatchesKey(response).map((w) => Product.fromJson(w)).toList()[2].name);
     // Fetch and store the current wishlist ID
   }
 

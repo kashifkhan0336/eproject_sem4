@@ -7,11 +7,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductService extends GetxService {
   final _supabaseClient = Get.find<SupabaseClient>();
-  Future<List<Product>> getProducts() async {
+  Future<List<Product>> getProducts({int limit = 8}) async {
     List<Product> products = await _supabaseClient
         .from('watches')
         .select(
             "id,watch_data->name,watch_data->price,watch_data->description,watch_data->description,watch_data->specs,brands (name)")
+        .limit(limit)
         .withConverter((products) => products.map(Product.fromJson).toList());
     return products;
   }
@@ -19,7 +20,8 @@ class ProductService extends GetxService {
   Future<Product> getProduct(int productId) async {
     final Product product = await _supabaseClient
         .from("watches")
-        .select("id,watch_data->name,watch_data->price,watch_data->description,watch_data->description,watch_data->specs,brands (name)")
+        .select(
+            "id,watch_data->name,watch_data->price,watch_data->description,watch_data->description,watch_data->specs,brands (name)")
         .eq("id", productId)
         .single()
         .withConverter<Product>((data) => Product.fromJson(data));
